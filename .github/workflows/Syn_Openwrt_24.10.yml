@@ -2,9 +2,13 @@ name: Sync OpenWrt Upstream
 
 on:
   schedule:
-    # 每天北京时间早上 8:00 自动运行 (UTC 时间 0:00)
     - cron: '0 0 * * *'
-  workflow_dispatch: # 允许你手动点击按钮触发同步
+  workflow_dispatch:
+
+# 显式声明该工作流拥有的权限
+permissions:
+  contents: write    # 允许读写仓库代码
+  workflows: write   # 允许更新 .github/workflows 下的工作流文件（解决当前报错）
 
 jobs:
   sync:
@@ -13,23 +17,17 @@ jobs:
       - name: Checkout target repo
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # 获取完整历史记录
+          fetch-depth: 0
 
       - name: Sync from Upstream
         run: |
-          # 配置 Git 用户信息（用于在你的仓库中记录操作）
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           
-          # 添加 OpenWrt 官方源作为远程仓库
           git remote add upstream https://github.com/openwrt/openwrt.git
-          
-          # 获取官方仓库的所有更新
           git fetch upstream
           
-          # 强制将官方的 openwrt-24.10 分支同步到你本地的 openwrt-24.10 分支
           git checkout -b openwrt-24.10 upstream/openwrt-24.10 || git checkout openwrt-24.10
           git reset --hard upstream/openwrt-24.10
           
-          # 强推到你自己的 GitHub 仓库
           git push origin openwrt-24.10 --force
