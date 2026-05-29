@@ -5,11 +5,6 @@ on:
     - cron: '0 0 * * *'
   workflow_dispatch:
 
-# 显式声明该工作流拥有的权限
-permissions:
-  contents: write    # 允许读写仓库代码
-  workflows: write   # 允许更新 .github/workflows 下的工作流文件（解决当前报错）
-
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -29,5 +24,9 @@ jobs:
           
           git checkout -b openwrt-24.10 upstream/openwrt-24.10 || git checkout openwrt-24.10
           git reset --hard upstream/openwrt-24.10
+          
+          # 【核心改动】强制删除从官方同步过来的 .github 文件夹，避免触发 GitHub 的安全拦截
+          git rm -rf .github --ignore-unmatch
+          git commit -m "Remove upstream workflows to avoid permission issues" || true
           
           git push origin openwrt-24.10 --force
