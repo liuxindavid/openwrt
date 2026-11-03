@@ -1,4 +1,4 @@
-name: Sync OpenWrt Upstream
+name: Sync OpenWrt 24.10 Upstream
 
 on:
   schedule:
