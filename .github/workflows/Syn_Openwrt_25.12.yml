@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: main
-          fetch-depth: 1
+          fetch-depth: 0
           persist-credentials: true
 
       - name: Sync official OpenWrt 25.12 branch
