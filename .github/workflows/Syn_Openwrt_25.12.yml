@@ -1,0 +1,50 @@
+
+name: Sync OpenWrt 25.12 Upstream
+
+on:
+  schedule:
+    - cron: '30 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-openwrt-25-12
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout mirror repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+          persist-credentials: true
+
+      - name: Sync official OpenWrt 25.12 branch
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Retrieve only the official stable branch.
+          git remote add upstream https://github.com/openwrt/openwrt.git
+          git fetch --depth=1 upstream refs/heads/openwrt-25.12
+
+          # Replace ONLY the 25.12 mirror branch, never main or 24.10.
+          git checkout -B openwrt-25.12 FETCH_HEAD
+
+          # Remove upstream workflows to avoid triggering unrelated CI jobs.
+          git rm -rf .github --ignore-unmatch
+          if ! git diff --cached --quiet; then
+            git commit -m "Remove upstream workflows to avoid permission issues"
+          fi
+
+          # This is a dedicated mirror branch: it intentionally follows upstream.
+          git push --force origin HEAD:refs/heads/openwrt-25.12
