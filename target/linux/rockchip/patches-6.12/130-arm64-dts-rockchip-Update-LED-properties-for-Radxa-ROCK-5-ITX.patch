@@ -1,0 +1,39 @@
+From 61acc92a71c8cb16580c771d2c436d558d4a2d44 Mon Sep 17 00:00:00 2001
+From: FUKAUMI Naoki <naoki@radxa.com>
+Date: Tue, 2 Sep 2025 02:42:48 +0000
+Subject: [PATCH] arm64: dts: rockchip: rock-5-itx: update LED properties
+
+Add the LED aliases used by OpenWrt to indicate the boot, failsafe,
+running and upgrade states and replace the default heartbeat trigger of
+the Radxa ROCK 5 ITX, so that the LED reflects these states.
+---
+--- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dts
+@@ -23,6 +23,10 @@
+ 		mmc0 = &sdhci;
+ 		mmc1 = &sdmmc;
+ 		mmc2 = &sdio;
++		led-boot = &power_led;
++		led-failsafe = &power_led;
++		led-running = &power_led;
++		led-upgrade = &power_led;
+ 	};
+ 
+ 	chosen {
+@@ -62,12 +66,14 @@
+ 		pinctrl-names = "default";
+ 		pinctrl-0 = <&led_pins>;
+ 
+-		power-led1 {
++		power_led: power-led1 {
++			default-state = "on";
++			function = LED_FUNCTION_POWER;
+ 			gpios = <&gpio0 RK_PB7 GPIO_ACTIVE_HIGH>;
+-			linux,default-trigger = "default-on";
+ 		};
+ 
+ 		hdd-led2 {
++			function = LED_FUNCTION_DISK;
+ 			gpios = <&gpio0 RK_PC0 GPIO_ACTIVE_HIGH>;
+ 			linux,default-trigger = "disk-activity";
+ 		};

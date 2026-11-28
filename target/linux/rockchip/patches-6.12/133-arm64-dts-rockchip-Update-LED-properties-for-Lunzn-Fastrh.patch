@@ -1,0 +1,33 @@
+From d76a77427017ee6356d3d0f9be61927c03748a09 Mon Sep 17 00:00:00 2001
+From: Tianling Shen <cnsztl@immortalwrt.org>
+Date: Mon, 8 Sep 2025 21:54:55 +0800
+Subject: [PATCH] arm64: dts: rockchip: fastrhino-r66s: update LED properties
+
+Add the LED aliases used by OpenWrt to indicate the boot, failsafe,
+running and upgrade states and replace the default heartbeat trigger of
+the Lunzn FastRhino R66S, so that the LED reflects these states.
+---
+--- a/arch/arm64/boot/dts/rockchip/rk3568-fastrhino-r66s.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3568-fastrhino-r66s.dtsi
+@@ -9,6 +9,13 @@
+ #include "rk3568.dtsi"
+ 
+ / {
++	aliases {
++		led-boot = &status_led;
++		led-failsafe = &status_led;
++		led-running = &status_led;
++		led-upgrade = &status_led;
++	};
++
+ 	chosen: chosen {
+ 		stdout-path = "serial2:1500000n8";
+ 	};
+@@ -35,7 +42,6 @@
+ 			color = <LED_COLOR_ID_BLUE>;
+ 			function = LED_FUNCTION_STATUS;
+ 			gpios = <&gpio0 RK_PC0 GPIO_ACTIVE_HIGH>;
+-			linux,default-trigger = "heartbeat";
+ 		};
+ 	};
+ 

@@ -1,0 +1,18 @@
+From d9a5cafc40926d7afe2d8da9202d9f8d51255997 Mon Sep 17 00:00:00 2001
+From: Markus Stockhausen <markus.stockhausen@gmx.de>
+Date: Tue, 27 May 2025 15:28:52 -0400
+Subject: [PATCH] realtek: disable upstream Realtek board
+
+Upstream now has integrated the Realtek target into the generic
+MIPS initialization. For now disable the board compilation.
+
+Submitted-by: Markus Stockhausen <markus.stockhausen@gmx.de>
+---
+--- a/arch/mips/generic/Makefile
++++ b/arch/mips/generic/Makefile
+@@ -13,4 +13,4 @@ obj-$(CONFIG_LEGACY_BOARD_SEAD3)	+= boar
+ obj-$(CONFIG_LEGACY_BOARD_OCELOT)	+= board-ocelot.o
+ obj-$(CONFIG_MACH_INGENIC)			+= board-ingenic.o
+ obj-$(CONFIG_VIRT_BOARD_RANCHU)		+= board-ranchu.o
+-obj-$(CONFIG_MACH_REALTEK_RTL)		+= board-realtek.o
++# obj-$(CONFIG_MACH_REALTEK_RTL)		+= board-realtek.o

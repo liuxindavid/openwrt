@@ -1,0 +1,28 @@
+From 33d027c5b8fb5265ea84ac41a7bfedd805c48b24 Mon Sep 17 00:00:00 2001
+From: Chuanhong Guo <gch981213@gmail.com>
+Date: Thu, 9 Apr 2020 14:09:48 +0800
+Subject: [PATCH] net: ethernet: add Ralink SoC Ethernet driver to the build
+
+Hook the Ethernet driver for Ralink and MediaTek MIPS SoCs, which is
+located in drivers/net/ethernet/ralink, into Kconfig and the Makefile.
+---
+--- a/drivers/net/ethernet/Kconfig
++++ b/drivers/net/ethernet/Kconfig
+@@ -176,6 +176,7 @@ source "drivers/net/ethernet/pensando/Kc
+ source "drivers/net/ethernet/qlogic/Kconfig"
+ source "drivers/net/ethernet/brocade/Kconfig"
+ source "drivers/net/ethernet/qualcomm/Kconfig"
++source "drivers/net/ethernet/ralink/Kconfig"
+ source "drivers/net/ethernet/rdc/Kconfig"
+ source "drivers/net/ethernet/realtek/Kconfig"
+ source "drivers/net/ethernet/renesas/Kconfig"
+--- a/drivers/net/ethernet/Makefile
++++ b/drivers/net/ethernet/Makefile
+@@ -79,6 +79,7 @@ obj-$(CONFIG_NET_VENDOR_PACKET_ENGINES)
+ obj-$(CONFIG_NET_VENDOR_PASEMI) += pasemi/
+ obj-$(CONFIG_NET_VENDOR_QLOGIC) += qlogic/
+ obj-$(CONFIG_NET_VENDOR_QUALCOMM) += qualcomm/
++obj-$(CONFIG_NET_VENDOR_RALINK) += ralink/
+ obj-$(CONFIG_NET_VENDOR_REALTEK) += realtek/
+ obj-$(CONFIG_NET_VENDOR_RENESAS) += renesas/
+ obj-$(CONFIG_NET_VENDOR_RDC) += rdc/

@@ -1,0 +1,52 @@
+From 6e361c76ee3752a6e3634bc5d2f057cdeb39540b Mon Sep 17 00:00:00 2001
+From: FUKAUMI Naoki <naoki@radxa.com>
+Date: Tue, 2 Sep 2025 02:42:55 +0000
+Subject: [PATCH] arm64: dts: rockchip: radxa-e52c: update LED properties
+
+Add the LED aliases used by OpenWrt to indicate the boot, failsafe,
+running and upgrade states and replace the default heartbeat trigger of
+the Radxa E52C, so that the LED reflects these states.
+---
+--- a/arch/arm64/boot/dts/rockchip/rk3582-radxa-e52c.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3582-radxa-e52c.dts
+@@ -19,6 +19,10 @@
+ 	aliases {
+ 		mmc0 = &sdhci;
+ 		mmc1 = &sdmmc;
++		led-boot = &led_green;
++		led-failsafe = &led_green;
++		led-running = &led_green;
++		led-upgrade = &led_green;
+ 	};
+ 
+ 	chosen {
+@@ -57,12 +61,11 @@
+ 		pinctrl-names = "default";
+ 		pinctrl-0 = <&led_0>;
+ 
+-		led-0 {
++		led_green: led-0 {
+ 			color = <LED_COLOR_ID_GREEN>;
+ 			default-state = "on";
+ 			function = LED_FUNCTION_STATUS;
+ 			gpios = <&gpio3 RK_PC4 GPIO_ACTIVE_HIGH>;
+-			linux,default-trigger = "heartbeat";
+ 		};
+ 	};
+ 
+@@ -71,7 +74,6 @@
+ 
+ 		led-1 {
+ 			color = <LED_COLOR_ID_GREEN>;
+-			default-state = "on";
+ 			function = LED_FUNCTION_LAN;
+ 			linux,default-trigger = "netdev";
+ 			pwms = <&pwm14 0 1000000 PWM_POLARITY_INVERTED>;
+@@ -80,7 +82,6 @@
+ 
+ 		led-2 {
+ 			color = <LED_COLOR_ID_GREEN>;
+-			default-state = "on";
+ 			function = LED_FUNCTION_WAN;
+ 			linux,default-trigger = "netdev";
+ 			pwms = <&pwm11 0 1000000 PWM_POLARITY_INVERTED>;
